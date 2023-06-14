@@ -3,10 +3,14 @@ from typing import List
 
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
-        max_prod = nums[0]
-        curr_prod = max_prod
-        for i in range(1, len(nums)):
-            curr_prod = max(curr_prod * nums[i], nums[i])
-            max_prod = max(curr_prod, max_prod)
-
-        return max_prod
+        res = max(nums)
+        max_prod, min_prod = 1, 1
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                max_prod, min_prod = 1, 1
+                continue
+            tmp = max_prod * nums[i]
+            max_prod = max(max_prod * nums[i], nums[i] * min_prod, nums[i])
+            min_prod = min(tmp, nums[i] * min_prod, nums[i])
+            res = max(res, max_prod)
+        return res
